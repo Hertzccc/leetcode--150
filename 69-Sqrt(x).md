@@ -84,7 +84,7 @@ class Solution:
 
 
 
-## 题解V3.1-二分查找（左开右闭）
+## 题解V3.1-二分查找（左闭右闭）
 
 ```python
 class Solution:
