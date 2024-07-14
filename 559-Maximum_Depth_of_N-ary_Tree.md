@@ -1,0 +1,123 @@
+# 559. Maximum Depth of N-ary Tree
+
+## 题目描述
+
+Given a n-ary tree, find its maximum depth.
+
+The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+*Nary-Tree input serialization is represented in their level order traversal, each group of children is separated by the null value (See examples).*
+
+ 
+
+**Example 1:**
+
+![img](./559-Maximum_Depth_of_N-ary_Tree.assets/narytreeexample.png)
+
+```
+Input: root = [1,null,3,2,4,null,5,6]
+Output: 3
+```
+
+**Example 2:**
+
+![img](./559-Maximum_Depth_of_N-ary_Tree.assets/sample_4_964.png)
+
+```
+Input: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
+Output: 5
+```
+
+ 
+
+**Constraints:**
+
+- The total number of nodes is in the range `[0, 104]`.
+- The depth of the n-ary tree is less than or equal to `1000`.
+
+
+
+## 题解V1.0 递归-后序遍历
+
+```java
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> children;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, List<Node> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Solution {
+    public int maxDepth(Node root) {
+        if(root == null){ return 0;}
+        int max_val = 0;
+        for(Node child : root.children){
+            int child_depth = maxDepth(child);
+            max_val = (max_val > child_depth ? max_val : child_depth);
+        }
+        return max_val + 1;
+    }
+}
+```
+
+与104相似，只不过时加了个循环
+
+
+
+## 题解V2.0 BFS层序遍历 迭代
+
+```java
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> children;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, List<Node> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Solution {
+    public int maxDepth(Node root) {
+        if(root == null){ return 0;}
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        int depth = 0;
+        while(!queue.isEmpty()){
+            int level = queue.size();
+            for(int i=0; i< level; i++){
+                Node node = queue.poll();
+                for(Node cur: node.children){
+                    if(cur != null){
+                        queue.offer(cur);
+                    }
+                }
+            }
+            depth++;
+        }
+        return depth;
+    }
+}
+```
+
